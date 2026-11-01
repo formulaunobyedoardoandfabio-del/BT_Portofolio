@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;700;900&family=Inter+Tight:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --background: #050505;
+  --foreground: #f2f0ea;
+  --muted: #8d8b85;
+  --accent: #ffd400;
+  --accent-foreground: #0a0a0a;
+  --paper: #ffffff;
+  --c-yellow: #ffd400;
+  --c-blue: #1f4bff;
+  --c-purple: #8a3dff;
+  --c-red: #ff2a2a;
+  --c-green: #19e36b;
+  --reel-dur: 1400ms;
+  --reel-cell: 30px;
+  --reel-spin-blur: 3px;
+  --reel-stagger: 90ms;
+  --reel-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --border: rgba(242, 240, 234, 0.14);
+  --nx: 0;
+  --ny: 0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-paper: var(--paper);
+  --color-brand-yellow: var(--c-yellow);
+  --color-brand-blue: var(--c-blue);
+  --color-brand-purple: var(--c-purple);
+  --color-brand-red: var(--c-red);
+  --color-brand-green: var(--c-green);
+  --font-display: 'Unbounded', sans-serif;
+  --font-sans: 'Inter Tight', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+html {
+  background: var(--background);
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.has-cursor,
+  body.has-cursor a,
+  body.has-cursor button {
+    cursor: none;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.char {
+  display: inline-block;
+  color: var(--cc, inherit);
+  transform: translateY(110%) rotate(8deg);
+  animation: char-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 45ms + var(--base, 0ms));
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.2s;
+}
+.char-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+}
+.char-wrap:hover .char {
+  animation: none;
+  transform: translateY(-8%) scale(1.12, 0.9) skewX(-8deg);
+  color: var(--accent);
+}
+@keyframes char-up {
+  to {
+    transform: none;
+  }
+}
+
+@keyframes checker-slide {
+  to {
+    background-position-x: 96px;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.t-reel {
+  display: inline-flex;
+  align-items: center;
+  height: var(--reel-cell);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.t-reel-col {
+  position: relative;
+  width: 0.86em;
+  height: var(--reel-cell);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+.t-reel-strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform, filter;
+}
+.t-reel-digit {
+  height: var(--reel-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.t-reel-sep {
+  display: inline-flex;
+  align-items: flex-end;
+  height: var(--reel-cell);
+  padding: 0 0.04em 0.18em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-reel-strip {
+    transition: none !important;
+    filter: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .char {
+    animation: none;
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

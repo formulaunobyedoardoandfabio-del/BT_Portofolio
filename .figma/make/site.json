@@ -1,0 +1,11 @@
+{
+  "title": "Portofolio B&T",
+  "description": "Showcase your design portfolio with engaging animations and interactive features to promote your app and Instagram effectively.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

@@ -27,7 +27,7 @@ export default function Hero() {
         </div>
 
         <div className="relative flex flex-1 items-center py-12 md:py-16">
-          <div className="pointer-events-none absolute -right-20 top-1/2 h-[min(78vw,760px)] w-[min(78vw,760px)] -translate-y-1/2 opacity-90 md:-right-10 md:w-[min(62vw,900px)]">
+          <div className="pointer-events-none absolute -right-[18vw] top-[38%] h-[min(105vw,780px)] w-[min(105vw,780px)] -translate-y-1/2 opacity-55 sm:-right-[10vw] md:opacity-80 lg:-right-[5vw] lg:top-1/2 lg:h-[min(46vw,760px)] lg:w-[min(46vw,760px)] lg:opacity-100">
             <Suspense fallback={null}>
               <HeroScene />
             </Suspense>
@@ -39,7 +39,7 @@ export default function Hero() {
               <span className="h-px w-12 bg-[#ffd400]" />
             </p>
 
-            <h1 className="max-w-[1050px] font-display text-[clamp(3.7rem,10.8vw,11.8rem)] font-black uppercase leading-[0.82] tracking-[-0.085em]">
+            <h1 className="max-w-[1050px] font-display text-[clamp(2.7rem,8vw,9.4rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] [text-shadow:0_6px_40px_rgba(0,0,0,0.45)]">
               <span className="block"><Chars text="Creiamo" /></span>
               <span className="block text-[#ffd400]"><Chars text="cose che" base={180} /></span>
               <span className="block text-white"><Chars text="si muovono" base={360} colors={["#ffffff", "#5b7bff", "#b07dff", "#ffffff", "#ff5a5a", "#4dff95"]} /></span>

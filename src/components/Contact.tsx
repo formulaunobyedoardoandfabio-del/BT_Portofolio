@@ -33,7 +33,7 @@ export default function Contact() {
         <span className="block">
           <Repel text="Parliamo" />
         </span>
-        <span className="block text-transparent [-webkit-text-stroke:2px_#000]">
+        <span className="block font-light italic transition-colors duration-500 group-hover:text-white">
           <Repel text="insieme →" />
         </span>
       </a>

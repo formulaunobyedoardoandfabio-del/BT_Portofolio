@@ -15,6 +15,11 @@ pnpm dev
 pnpm build
 ```
 
+## Logo
+
+Il logo B&T è vettoriale in `src/lib/logo.ts` (tracciato SVG ricavato dal PNG originale `src/assets/bt-logo-white.png`).
+Lo usano la navbar (`Logo.tsx`), il logo 3D estruso dell'hero (`three/HeroScene.tsx`), lo zoom del marchio (`BrandPortal.tsx`) e la favicon (`public/favicon.svg`).
+
 ## GitHub Pages
 
 Il workflow `.github/workflows/deploy-pages.yml` pubblica automaticamente la versione di `main` su GitHub Pages.

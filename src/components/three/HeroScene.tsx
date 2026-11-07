@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Float, Sparkles } from "@react-three/drei"
 import * as THREE from "three"
-import logoUrl from "../../assets/bt-logo-white.png"
+import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js"
+import { LOGO_H, LOGO_PATH, LOGO_VIEWBOX, LOGO_W } from "../../lib/logo"
 
 // R3F 9.x crea ancora THREE.Clock internamente: nascondiamo solo questo avviso finché non esce una versione aggiornata.
 const originalWarn = console.warn
@@ -11,110 +12,71 @@ console.warn = (...args: unknown[]) => {
   originalWarn(...args)
 }
 
-const STOPS =["#1f4bff", "#8a3dff", "#ff2a2a", "#ffd400", "#19e36b"].map((c) => new THREE.Color(c))
-const LAYERS = 30
-const GAP = 0.034
-
-function useLogoTexture() {
-  const [data, setData] = useState<{ texture: THREE.Texture; aspect: number } | null>(null)
-  useEffect(() => {
-    const img = new Image()
-    img.onload = () => {
-      const c = document.createElement("canvas")
-      c.width = img.width
-      c.height = img.height
-      const ctx = c.getContext("2d")!
-      ctx.drawImage(img, 0, 0)
-      const d = ctx.getImageData(0, 0, c.width, c.height)
-      let minX = c.width
-      let minY = c.height
-      let maxX = 0
-      let maxY = 0
-      for (let y = 0; y < c.height; y++) {
-        for (let x = 0; x < c.width; x++) {
-          const i = (y * c.width + x) * 4
-          const a = Math.max(0, Math.min(255, (255 - d.data[i]) * 1.4))
-          d.data[i] = d.data[i + 1] = d.data[i + 2] = 255
-          d.data[i + 3] = a
-          if (a > 128) {
-            minX = Math.min(minX, x)
-            maxX = Math.max(maxX, x)
-            minY = Math.min(minY, y)
-            maxY = Math.max(maxY, y)
-          }
-        }
-      }
-      ctx.putImageData(d, 0, 0)
-      const w = maxX - minX + 1
-      const h = maxY - minY + 1
-      const c2 = document.createElement("canvas")
-      c2.width = w
-      c2.height = h
-      c2.getContext("2d")!.drawImage(c, minX, minY, w, h, 0, 0, w, h)
-      const texture = new THREE.CanvasTexture(c2)
-      texture.colorSpace = THREE.SRGBColorSpace
-      texture.anisotropy = 8
-      setData({ texture, aspect: w / h })
-    }
-    img.src = logoUrl
+/** Logo B&T estruso in 3D dal tracciato SVG: bordi netti a qualsiasi risoluzione. */
+function useLogoGeometry() {
+  return useMemo(() => {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${LOGO_VIEWBOX}"><path d="${LOGO_PATH}"/></svg>`
+    const { paths } = new SVGLoader().parse(svg)
+    const shapes = paths.flatMap((p) => SVGLoader.createShapes(p))
+    const geo = new THREE.ExtrudeGeometry(shapes, {
+      depth: 16,
+      bevelEnabled: true,
+      bevelThickness: 2.2,
+      bevelSize: 1.4,
+      bevelSegments: 6,
+      curveSegments: 18,
+    })
+    geo.translate(-LOGO_W / 2, -LOGO_H / 2, -8)
+    geo.scale(1, -1, 1) // SVG ha l'asse Y verso il basso
+    geo.computeVertexNormals()
+    return geo
   }, [])
-  return data
 }
 
-function LayeredLogo() {
-  const logo = useLogoTexture()
+function Logo3D() {
+  const geometry = useLogoGeometry()
   const group = useRef<THREE.Group>(null)
   const mouse = useRef({ x: 0, y: 0 })
   const { viewport } = useThree()
 
   useEffect(() => {
-    const on = (e: MouseEvent) => {
+    const on = (e: PointerEvent) => {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1
       mouse.current.y = (e.clientY / window.innerHeight) * 2 - 1
     }
-    window.addEventListener("mousemove", on)
-    return () => window.removeEventListener("mousemove", on)
+    window.addEventListener("pointermove", on)
+    return () => window.removeEventListener("pointermove", on)
   }, [])
-
-  const colors = useMemo(
-    () =>
-      Array.from({ length: LAYERS }, (_, i) => {
-        if (i === LAYERS - 1) return new THREE.Color("#ffffff")
-        const t = (i / (LAYERS - 2)) * (STOPS.length - 1)
-        const a = Math.floor(t)
-        const b = Math.min(a + 1, STOPS.length - 1)
-        return new THREE.Color().lerpColors(STOPS[a], STOPS[b], t - a)
-      }),
-    [],
-  )
 
   useFrame((state, dt) => {
     const g = group.current
     if (!g) return
     const t = state.clock.elapsedTime
     const scroll = Math.min(window.scrollY / window.innerHeight, 1.5)
-    const ty = mouse.current.x * 0.7 + Math.sin(t * 0.6) * 0.25 + scroll * 1.6
-    const tx = mouse.current.y * 0.4 + Math.cos(t * 0.5) * 0.08 + scroll * 0.4
-    g.rotation.y += (ty - g.rotation.y) * Math.min(dt * 3, 1)
-    g.rotation.x += (tx - g.rotation.x) * Math.min(dt * 3, 1)
-    g.position.y = Math.sin(t * 0.9) * 0.12
+    const ty = -0.35 + mouse.current.x * 0.55 + Math.sin(t * 0.55) * 0.18 + scroll * 1.8
+    const tx = 0.12 + mouse.current.y * 0.3 + Math.cos(t * 0.45) * 0.06 + scroll * 0.35
+    const k = Math.min(dt * 3, 1)
+    g.rotation.y += (ty - g.rotation.y) * k
+    g.rotation.x += (tx - g.rotation.x) * k
+    g.position.y = Math.sin(t * 0.9) * 0.1
   })
 
-  if (!logo) return null
-  const width = Math.min(4.4, viewport.width * 0.8)
-  const height = width / logo.aspect
-  const shiftX = viewport.width > 9 ? viewport.width * 0.2 : 0
+  const size = Math.min(4.2, viewport.width * 0.62)
+  const s = size / LOGO_H
 
   return (
-    <group position={[shiftX, 0, 0]}>
-      <group ref={group}>
-        {colors.map((color, i) => (
-          <mesh key={i} position={[0, 0, (i - LAYERS / 2) * GAP]}>
-            <planeGeometry args={[width, height]} />
-            <meshBasicMaterial map={logo.texture} color={color} transparent alphaTest={0.45} />
-          </mesh>
-        ))}
-      </group>
+    <group ref={group}>
+      <mesh geometry={geometry} scale={s} castShadow>
+        <meshStandardMaterial attach="material-0" color="#f2f0ea" roughness={0.28} metalness={0.15} />
+        <meshStandardMaterial
+          attach="material-1"
+          color="#ffd400"
+          emissive="#ff8a00"
+          emissiveIntensity={0.25}
+          roughness={0.35}
+          metalness={0.55}
+        />
+      </mesh>
     </group>
   )
 }
@@ -154,15 +116,16 @@ export default function HeroScene() {
       gl={{ alpha: true, antialias: true }}
       style={{ pointerEvents: "none" }}
     >
-      <ambientLight intensity={1.1} />
-      <directionalLight position={[4, 5, 6]} intensity={2.2} />
-      <pointLight position={[-5, -2, 3]} intensity={30} color="#8a3dff" />
-      <LayeredLogo />
-      <Tyre position={[-3.6, 2, -1]} color="#ff2a2a" scale={1.1} />
-      <Tyre position={[3.9, -2.2, 0.5]} color="#1f4bff" scale={0.9} speed={1.4} />
-      <Tyre position={[-2.6, -2.6, 1]} color="#19e36b" scale={0.6} speed={0.8} />
-      <Tyre position={[4, 2.4, -2]} color="#ffd400" scale={0.7} speed={1.1} />
-      <Sparkles count={70} scale={[12, 7, 5]} size={3} speed={0.4} color="#ffd400" />
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[3, 4, 7]} intensity={2.6} />
+      <pointLight position={[-4, 2, 3]} intensity={45} color="#1f4bff" />
+      <pointLight position={[4, -3, 2]} intensity={45} color="#8a3dff" />
+      <pointLight position={[0, 3, -3]} intensity={25} color="#ffd400" />
+      <Logo3D />
+      <Tyre position={[-2.9, 2.1, -1.5]} color="#ff2a2a" scale={0.8} />
+      <Tyre position={[2.7, -2.2, 0.5]} color="#1f4bff" scale={0.7} speed={1.4} />
+      <Tyre position={[2.6, 2.3, -2]} color="#19e36b" scale={0.55} speed={1.1} />
+      <Sparkles count={60} scale={[9, 7, 5]} size={2.6} speed={0.4} color="#ffd400" />
     </Canvas>
   )
 }

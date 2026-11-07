@@ -13,7 +13,7 @@ import Work from "./components/Work"
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen overflow-x-clip bg-background text-foreground">
       <Cursor />
       <Trail />
       <Nav />

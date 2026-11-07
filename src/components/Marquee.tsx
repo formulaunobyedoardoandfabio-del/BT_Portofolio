@@ -44,7 +44,7 @@ function Band({
 
   const row = WORDS.map((w, i) => (
     <span key={i} className="flex items-center gap-8 px-4">
-      <span className={i % 2 ? "text-transparent [-webkit-text-stroke:2px_currentColor]" : ""}>{w}</span>
+      <span className={i % 2 ? "font-light italic opacity-80" : ""}>{w}</span>
       <span className="text-3xl">✦</span>
     </span>
   ))

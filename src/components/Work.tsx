@@ -43,17 +43,23 @@ function Card({ p, onOpen }: { p: Project; onOpen: (p: Project, r: DOMRect) => v
       className="group relative flex h-[62vh] w-[82vw] shrink-0 flex-col justify-between overflow-hidden rounded-3xl border border-border p-8 transition-transform duration-300 ease-out md:w-[44vw] lg:h-[68vh]"
       style={{ background: bg(p.hue, "var(--gx,50%)", "var(--gy,50%)") }}
     >
-      <div className="flex items-start justify-between font-mono text-xs uppercase tracking-widest">
+      <div className="relative flex items-start justify-between font-mono text-xs uppercase tracking-widest">
         <span>{p.tag}</span>
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-500 group-hover:rotate-45">
           <IconArrowUpRight size={22} />
         </span>
       </div>
-      <div>
-        <div className="font-display text-[9rem] font-black leading-none text-foreground/15 transition-transform duration-500 group-hover:-translate-y-3 md:text-[12rem]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-16 top-1/4 h-[140%] w-40 rotate-[18deg] opacity-25 transition-transform duration-700 group-hover:translate-x-6"
+        style={{ background: `repeating-linear-gradient(90deg, hsl(${p.hue} 95% 65%) 0 18px, transparent 18px 34px)` }}
+      />
+      <div className="relative">
+        <div className="font-display text-[8rem] font-black leading-none text-foreground/15 transition-transform duration-500 group-hover:-translate-y-3 md:text-[11rem]">
           {p.n}
         </div>
         <h3 className="font-display text-3xl font-bold uppercase md:text-5xl">{p.title}</h3>
+        <p className="mt-4 max-w-sm text-sm leading-relaxed text-foreground/70 md:text-base">{p.desc}</p>
       </div>
     </div>
   )

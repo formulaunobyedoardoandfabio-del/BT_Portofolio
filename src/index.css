@@ -110,6 +110,23 @@ body {
   }
 }
 
+.marquee-y {
+  animation: marquee-y var(--duration) linear infinite;
+}
+.marquee-x {
+  animation: marquee-x var(--duration) linear infinite;
+}
+@keyframes marquee-y {
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+@keyframes marquee-x {
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
 @keyframes checker-slide {
   to {
     background-position-x: 96px;

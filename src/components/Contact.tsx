@@ -1,10 +1,11 @@
 import { useState } from "react"
-import Magnetic from "./Magnetic"
 import Repel from "./Repel"
 import Reveal from "./Reveal"
-import { IconArrowUp, IconInstagram, IconMail, IconPlay } from "./Icons"
+import { IconArrowUp, IconGlobe, IconInstagram, IconMail, IconPlay } from "./Icons"
+import SocialFlipButton from "./ui/SocialFlipButton"
+import SpecialText from "./ui/SpecialText"
 import { burst } from "../lib/confetti"
-import { EMAIL, INSTAGRAM_URL, PLAY_STORE_URL } from "../lib/config"
+import { APP_URL, EMAIL, INSTAGRAM_URL, PLAY_STORE_URL } from "../lib/config"
 
 export default function Contact() {
   const [copied, setCopied] = useState(false)
@@ -21,9 +22,11 @@ export default function Contact() {
   }
 
   return (
-    <footer id="contact" className="relative overflow-hidden bg-accent px-5 pb-8 pt-28 text-black md:px-10 md:pt-40">
+    <footer id="contact" className="relative overflow-hidden bg-accent px-5 pb-8 pt-28 text-black md:px-10 md:pb-28 md:pt-40">
       <Reveal>
-        <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-black/70">( 05 ) Contatti</p>
+        <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-black/70">
+          <SpecialText>( 06 ) Contatti</SpecialText>
+        </p>
       </Reveal>
       <a
         href={`mailto:${EMAIL}`}
@@ -49,21 +52,15 @@ export default function Contact() {
       </div>
 
       <div className="mt-12 flex flex-col gap-8 border-t border-black/20 pt-8 md:flex-row md:items-center md:justify-between">
-        <div className="flex flex-wrap gap-3">
-          {[
-            [PLAY_STORE_URL, "Google Play", <IconPlay key="p" size={18} />],
-            [INSTAGRAM_URL, "Instagram", <IconInstagram key="i" size={18} />],
-            [`mailto:${EMAIL}`, "Email", <IconMail key="m" size={18} />],
-          ].map(([href, label, icon]) => (
-            <Magnetic
-              key={label as string}
-              href={href as string}
-              className="items-center gap-2 rounded-full border border-black/30 px-5 py-3 font-mono text-xs uppercase tracking-widest transition-colors hover:bg-black hover:text-white"
-            >
-              {icon} {label}
-            </Magnetic>
-          ))}
-        </div>
+        <SocialFlipButton
+          items={[
+            { letter: "C", icon: <IconInstagram size={22} />, label: "Instagram", href: INSTAGRAM_URL },
+            { letter: "I", icon: <IconMail size={22} />, label: "Email", href: `mailto:${EMAIL}` },
+            { letter: "A", icon: <IconPlay size={22} />, label: "Google Play", href: PLAY_STORE_URL },
+            { letter: "O", icon: <IconGlobe size={22} />, label: "App web", href: APP_URL },
+          ]}
+          className="self-start"
+        />
         <div className="flex items-center justify-between gap-6 font-mono text-xs uppercase tracking-widest text-black/70">
           <span>© {new Date().getFullYear()} B&amp;T</span>
           <a

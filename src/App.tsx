@@ -3,10 +3,12 @@ import AppShowcase from "./components/AppShowcase"
 import BrandPortal from "./components/BrandPortal"
 import Contact from "./components/Contact"
 import Cursor from "./components/Cursor"
+import DockNav from "./components/DockNav"
 import Hero from "./components/Hero"
 import Instagram from "./components/Instagram"
 import Marquee from "./components/Marquee"
 import Nav from "./components/Nav"
+import Reviews from "./components/Reviews"
 import RollingTyre from "./components/RollingTyre"
 import Trail from "./components/Trail"
 import Work from "./components/Work"
@@ -17,6 +19,7 @@ export default function App() {
       <Cursor />
       <Trail />
       <Nav />
+      <DockNav />
       <main>
         <Hero />
         <Marquee />
@@ -26,6 +29,7 @@ export default function App() {
         <AppShowcase />
         <BrandPortal />
         <Instagram />
+        <Reviews />
       </main>
       <Contact />
     </div>

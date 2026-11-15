@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import Magnetic from "./Magnetic"
 import Reveal from "./Reveal"
+import SpecialText from "./ui/SpecialText"
 import { IconArrowUpRight, IconPlay, IconSparkles } from "./Icons"
-import { FEATURES, PLAY_STORE_URL } from "../lib/config"
-
-const APP_URL = "https://bt-app-2.vercel.app/"
+import { APP_URL, FEATURES, PLAY_STORE_URL } from "../lib/config"
 
 export default function AppShowcase( ) {
   const section = useRef<HTMLElement>(null)
@@ -89,7 +88,7 @@ export default function AppShowcase( ) {
               "
             >
               <IconSparkles size={16} />
-              ( 03 ) L&apos;app
+              <SpecialText>( 03 ) L&apos;app</SpecialText>
             </p>
 
             <h2

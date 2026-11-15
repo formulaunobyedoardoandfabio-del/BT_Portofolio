@@ -1,22 +1,23 @@
-import { lazy, Suspense } from "react"
 import Magnetic from "./Magnetic"
 import { Chars } from "./Reveal"
 import { IconArrowUpRight, IconInstagram, IconPlay } from "./Icons"
+import DotField from "./ui/DotField"
+import SpecialText from "./ui/SpecialText"
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL, PLAY_STORE_URL } from "../lib/config"
-
-const HeroScene = lazy(() => import("./three/HeroScene"))
 
 export default function Hero() {
   return (
-    <section
-      id="top"
-      className="relative isolate min-h-[100svh] overflow-hidden bg-[#050505] px-5 pb-8 pt-28 text-foreground md:px-10 md:pb-10 md:pt-32"
-    >
+    <section id="top" className="relative isolate min-h-[100svh] overflow-hidden bg-[#050505] text-foreground">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_38%,rgba(138,61,255,0.28),transparent_27%),radial-gradient(circle_at_18%_92%,rgba(31,75,255,0.18),transparent_32%),linear-gradient(125deg,#050505_0%,#0b0b0b_58%,#11110d_100%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(242,240,234,.09)_1px,transparent_1px),linear-gradient(90deg,rgba(242,240,234,.09)_1px,transparent_1px)] [background-size:clamp(42px,6vw,90px)_clamp(42px,6vw,90px)] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
       <div className="pointer-events-none absolute -right-32 top-1/3 h-[34rem] w-[34rem] rounded-full bg-[#ffd400]/10 blur-[110px]" />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-9rem)] max-w-[1500px] flex-col">
+      <DotField
+        spacing={15}
+        seed={11}
+        className="min-h-[100svh] px-5 pb-8 pt-28 [color:rgba(255,212,0,0.55)] md:px-10 md:pb-10 md:pt-32"
+      >
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-9rem)] max-w-[1500px] flex-col text-foreground">
         <div className="flex items-center justify-between border-b border-white/15 pb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-white/55">
           <span className="flex items-center gap-3">
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#19e36b]" />
@@ -27,15 +28,9 @@ export default function Hero() {
         </div>
 
         <div className="relative flex flex-1 items-center py-12 md:py-16">
-          <div className="pointer-events-none absolute -right-[18vw] top-[38%] h-[min(105vw,780px)] w-[min(105vw,780px)] -translate-y-1/2 opacity-55 sm:-right-[10vw] md:opacity-80 lg:-right-[5vw] lg:top-1/2 lg:h-[min(46vw,760px)] lg:w-[min(46vw,760px)] lg:opacity-100">
-            <Suspense fallback={null}>
-              <HeroScene />
-            </Suspense>
-          </div>
-
           <div className="relative z-10 max-w-[1050px]">
             <p className="mb-7 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-white/60">
-              Portfolio / {INSTAGRAM_HANDLE}
+              <SpecialText>{`Portfolio / ${INSTAGRAM_HANDLE}`}</SpecialText>
               <span className="h-px w-12 bg-[#ffd400]" />
             </p>
 
@@ -87,6 +82,7 @@ export default function Hero() {
           <span className="text-[#ffd400]">↘</span>
         </div>
       </div>
+      </DotField>
     </section>
   )
 }

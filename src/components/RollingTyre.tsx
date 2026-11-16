@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react"
-import GlyphBackground from "./ui/GlyphBackground"
 
 function TyreSvg() {
   return (
@@ -58,12 +57,6 @@ export default function RollingTyre() {
   return (
     <section ref={section} className="relative h-[220vh]" aria-label="Piede a fondo">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <GlyphBackground
-          className="absolute inset-0 text-white [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_82%,transparent)]"
-          fontSize={14}
-          glowColor="#ffd400"
-          shapeColor="#8a3dff"
-        />
         <div className="absolute inset-x-0 top-[14%] px-5 md:px-10">
           <div className="relative">
             <div className={`${WORD} text-white/[0.07]`}>

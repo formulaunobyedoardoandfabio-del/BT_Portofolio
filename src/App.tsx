@@ -10,14 +10,12 @@ import Marquee from "./components/Marquee"
 import Nav from "./components/Nav"
 import Reviews from "./components/Reviews"
 import RollingTyre from "./components/RollingTyre"
-import Trail from "./components/Trail"
 import Work from "./components/Work"
 
 export default function App() {
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
       <Cursor />
-      <Trail />
       <Nav />
       <DockNav />
       <main>

@@ -1,8 +1,12 @@
 {
-  "title": "Portofolio B&T",
-  "description": "Showcase your design portfolio with engaging animations and interactive features to promote your app and Instagram effectively.",
+  "title": "B&T — Formula 1, app e design",
+  "description": "B&T è un duo creativo: contenuti sulla Formula 1 su Instagram (@bt_formula1), un'app Android e interfacce animate. Scopri i lavori.",
+  "language": "it",
   "robots": {
-    "index": false
+    "index": true
+  },
+  "icons": {
+    "icon": "/favicon.svg"
   },
   "accessibility": {
     "addBypassLinks": false,

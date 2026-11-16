@@ -1,25 +1,9 @@
-import logoUrl from "../assets/bt-logo-white.png"
+import { LOGO_PATH, LOGO_VIEWBOX } from "../lib/logo"
 
-export const LOGO_URL = logoUrl
-
-export default function Logo({
-  className = "",
-  tone = "light",
-}: {
-  className?: string
-  tone?: "light" | "dark"
-}) {
+export default function Logo({ className = "", title = "Logo B&T" }: { className?: string; title?: string }) {
   return (
-    <span className={`block aspect-square overflow-hidden ${className}`} role="img" aria-label="Logo B&T">
-      <img
-        src={logoUrl}
-        alt=""
-        draggable={false}
-        className={`h-full w-full max-w-none scale-[2.6] select-none ${
-          tone === "light" ? "invert mix-blend-screen" : "mix-blend-multiply"
-        }`}
-        style={{ transformOrigin: "51% 51%" }}
-      />
-    </span>
+    <svg viewBox={LOGO_VIEWBOX} className={className} role="img" aria-label={title} fill="currentColor">
+      <path d={LOGO_PATH} fillRule="evenodd" />
+    </svg>
   )
 }

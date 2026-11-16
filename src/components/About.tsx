@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import Reveal from "./Reveal"
+import SpecialText from "./ui/SpecialText"
 
 const TEXT =
   "Siamo B&T, un duo che trasforma idee in app e contenuti che si fanno notare. Disegniamo interfacce, costruiamo prodotti e raccontiamo tutto su Instagram. Ogni dettaglio si muove con uno scopo."
@@ -68,7 +69,7 @@ export default function About() {
   return (
     <section id="about" className="bg-brand-blue px-5 py-32 md:px-10 md:py-48">
       <Reveal>
-        <p className="mb-10 font-mono text-xs uppercase tracking-[0.3em] text-accent">( 01 ) Chi siamo</p>
+        <p className="mb-10 font-mono text-xs uppercase tracking-[0.3em] text-accent"><SpecialText>( 01 ) Chi siamo</SpecialText></p>
       </Reveal>
       <p
         ref={ref}

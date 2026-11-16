@@ -9,6 +9,7 @@ const LINKS = [
   ["Lavori", "#work"],
   ["App", "#app"],
   ["Instagram", "#instagram"],
+  ["Recensioni", "#reviews"],
   ["Contatti", "#contact"],
 ]
 
@@ -21,14 +22,6 @@ export default function Nav() {
         <a href="#top" aria-label="Home" data-cursor="Top" className="block h-11 w-11 text-white">
           <Logo className="h-full w-full" />
         </a>
-        <nav className="hidden items-center gap-8 font-mono text-xs uppercase tracking-widest text-white lg:flex">
-          {LINKS.map(([l, h]) => (
-            <a key={h} href={h} className="group relative py-1">
-              {l}
-              <span className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-white transition-transform duration-300 group-hover:scale-x-100" />
-            </a>
-          ))}
-        </nav>
         <div className="flex items-center gap-3">
           <Magnetic
             href={PLAY_STORE_URL}
@@ -40,7 +33,7 @@ export default function Nav() {
             onClick={() => setOpen(!open)}
             aria-label="Menu"
             aria-expanded={open}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 text-white lg:hidden"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 text-white md:hidden"
           >
             <span className={`h-0.5 w-6 bg-current transition-transform ${open ? "translate-y-1 rotate-45" : ""}`} />
             <span className={`h-0.5 w-6 bg-current transition-transform ${open ? "-translate-y-1 -rotate-45" : ""}`} />
@@ -48,7 +41,7 @@ export default function Nav() {
         </div>
       </header>
       <div
-        className={`fixed inset-0 z-40 flex flex-col justify-center gap-4 bg-background px-8 transition-[clip-path] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] lg:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col justify-center gap-4 bg-background px-8 transition-[clip-path] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] md:hidden ${
           open ? "[clip-path:circle(150%_at_100%_0)]" : "[clip-path:circle(0_at_100%_0)]"
         }`}
       >

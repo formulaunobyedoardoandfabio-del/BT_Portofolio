@@ -59,7 +59,7 @@ export default function RollingTyre() {
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-x-0 top-[14%] px-5 md:px-10">
           <div className="relative">
-            <div className={`${WORD} text-transparent [-webkit-text-stroke:2px_rgba(242,240,234,0.35)]`}>
+            <div className={`${WORD} text-white/[0.07]`}>
               Piede
               <br />a fondo
             </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react"
+import { Fragment, useEffect, useRef, type ReactNode } from "react"
 
 export default function Reveal({
   children,
@@ -37,22 +37,30 @@ export default function Reveal({
 }
 
 export function Chars({ text, base = 0, colors }: { text: string; base?: number; colors?: string[] }) {
+  // Le lettere sono raggruppate per parola: il browser può andare a capo solo tra le parole, mai a metà.
+  let i = 0
   return (
-    <span style={{ ["--base" as string]: `${base}ms` }} aria-label={text}>
-      {text.split("").map((c, i) =>
-        c === " " ? (
-          <span key={i} className="inline-block w-[0.28em]" />
-        ) : (
-          <span key={i} className="char-wrap" aria-hidden="true">
-            <span
-              className="char"
-              style={{ ["--i" as string]: i, ...(colors ? { ["--cc" as string]: colors[i % colors.length] } : {}) }}
-            >
-              {c}
-            </span>
+    <span style={{ ["--base" as string]: `${base}ms` }} role="text" aria-label={text}>
+      {text.split(" ").map((word, w) => (
+        <Fragment key={w}>
+          {w > 0 && " "}
+          <span className="inline-block whitespace-nowrap" aria-hidden="true">
+          {word.split("").map((c) => {
+            const n = i++
+            return (
+              <span key={n} className="char-wrap">
+                <span
+                  className="char"
+                  style={{ ["--i" as string]: n, ...(colors ? { ["--cc" as string]: colors[n % colors.length] } : {}) }}
+                >
+                  {c}
+                </span>
+              </span>
+            )
+          })}
           </span>
-        ),
-      )}
+        </Fragment>
+      ))}
     </span>
   )
 }

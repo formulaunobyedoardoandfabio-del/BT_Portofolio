@@ -44,6 +44,7 @@
 html {
   background: var(--background);
   scrollbar-width: none;
+  overflow-x: clip;
 }
 html::-webkit-scrollbar {
   display: none;
@@ -106,6 +107,23 @@ body {
 @keyframes char-up {
   to {
     transform: none;
+  }
+}
+
+.marquee-y {
+  animation: marquee-y var(--duration) linear infinite;
+}
+.marquee-x {
+  animation: marquee-x var(--duration) linear infinite;
+}
+@keyframes marquee-y {
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+@keyframes marquee-x {
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
   }
 }
 
